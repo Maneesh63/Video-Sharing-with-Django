@@ -1,0 +1,63 @@
+{% extends 'index.html' %}
+{% load static %} 
+
+{% block title %}User Dashboard{% endblock %}
+
+{% block styles %}
+     <link rel="stylesheet" href="{% static 'dashboard.css' %}">
+ {% endblock %}
+ 
+ {% block content %}
+    <div class="container">
+        <h1>User Dashboard</h1>
+        <div class="user-details">
+            <h2>User Details</h2>
+            <p><strong>Email:</strong> {{ user.username }}</p>
+            <p><strong>Date Joined:</strong> {{ user.date_joined }}</p>
+           
+            <div class="profile-picture">
+
+                {% if user.image %}
+                    <img src="{{ user.image.url }}" alt="Profile Picture" class="profile-img">
+                {% else %}
+                    <p>No profile picture available.</p>
+                {% endif %}
+            </div>
+    
+            <!-- Display Bio -->
+            <div class="bio">
+                <h3>Bio:</h3>
+                <p>{{ user.bio }}</p>
+            </div>
+<!--FOLLOWERS AND FOLLOWING COUNT-->
+            <div class="follow-info">
+          <a href="{% url 'followers_list' user.pk  %}"><p>Followers: {{ followers_count }}</p></a>
+          <a href="{% url 'following_list' user.pk  %}"> <p>Following: {{ following_count }}</p></a>
+            </div>
+        </div>
+        
+<!--EDIT DASHBOARD URL-->        
+{% if request.user == user %}
+        
+ <li class="ep"><a href="{% url 'edit_dashboard' user.pk %}">EDIT PROILE</a></li>
+    </div>
+{% endif %}
+
+<!--FOLLOWERS AND FOLLOWING DATAS-->
+{% if request.user != user %}
+
+{% if is_following %}
+    <form action="{% url 'unfollow_user' user.pk %}" method="post">
+        {% csrf_token %}
+        <button type="submit">Unfollow</button>
+    </form>
+{% else %}
+    <form action="{% url 'follow_user' user.pk %}" method="post">
+        {% csrf_token %}
+        <button type="submit">Follow</button>
+    </form>
+{% endif %}
+{% endif %}
+ 
+
+{% endblock %}

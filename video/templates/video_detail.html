@@ -1,0 +1,104 @@
+{% extends 'index.html' %}
+
+{% load static %}
+
+{% block title %} VIDEO DETAIL {% endblock %}
+
+
+{% block styles %}
+
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <h1>Video List</h1>
+    <div class="row">
+     {% if video %}
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <video width="100%" controls>
+                        {% if video.video %}
+                        <source src="{{ video.video.url }}" type="video/mp4">
+                        {% else %}
+                        <p>Your browser does not support the video tag.</p>
+                        {% endif %}
+                    </video>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ video.title }}</h5>
+                        <p class="card-text">{{ video.description }}</p>
+                        <p class="card-text"><small class="text-muted">Duration: {{ video.duration }}</small></p>
+                    </div>
+                </div>
+            </div>
+ 
+            <div class="jn" style="display: flex;">
+
+            <p class="card-text"><small class="text-muted" id="like-count">{{ like_count }} likes</small></p>
+           
+            <button id="like-btn" style="width: 60px; margin-left:1rem; padding:0px" class="btn {% if liked %}btn-danger{% else %}btn-primary{% endif %}" 
+
+                    data-liked="{{ liked|yesno:'true,false' }}" 
+                    data-like-url="{{ like_url }}" 
+                    data-unlike-url="{{ unlike_url }}" 
+                    onclick="toggleLike()">
+                {% if liked %}Unlike{% else %}Like{% endif %}
+            </button>
+
+            <a href="{% url 'edit_video' video.pk %}">EDIT</a>
+
+            <a href="{% url 'delete_video' video.pk %}">Delete</a>
+            </div>
+
+            <div class="comment">
+
+
+            <form action="{% url 'createcomment' video.pk %}" method="post">
+                {% csrf_token %}
+
+                <input type="text" name="comment">
+
+                <button type="submit" >POST</button>
+            </form>
+
+            </div>
+
+    <div class="listcomment">
+ 
+                {% if comment %}
+                {% for comments in comment %}
+                 
+                <p>{{ comments.comment }}</p>
+                <p>{{ comments.date }}</p>
+
+                {% endfor %}
+                {% endif %}
+            </div>
+     {% endif %}       
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            <script>
+                function toggleLike() {
+                    const likeBtn = $('#like-btn');
+                    const liked = likeBtn.data('liked');
+                    const url = liked ? likeBtn.data('unlike-url') : likeBtn.data('like-url');
+            
+                    $.ajax({
+                        url: url,
+                        method: 'POST',
+                        headers: {
+                            'X-CSRFToken': '{{ csrf_token }}'
+                        },
+                        success: function(response) {
+                            if (response.success) {
+                                $('#like-count').text(response.like_count + ' likes');
+                                if (liked) {
+                                    likeBtn.text('Like').removeClass('btn-danger').addClass('btn-primary').data('liked', false);
+                                } else {
+                                    likeBtn.text('Unlike').removeClass('btn-primary').addClass('btn-danger').data('liked', true);
+                                }
+                            }
+                        }
+                    });
+                }
+            </script>
+{% endblock %}

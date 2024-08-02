@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ user.username }}'s Followers</title>
+</head>
+<body>
+    <h1>{{ user.username }}'s Followers</h1>
+    <ul>
+        {% for follower in followers %}
+            <li>{{ follower.follower.username }}</li>
+        {% empty %}
+            <li>No followers yet.</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'dashboard' user.pk %}">Back to Profile</a>
+</body>
+</html>

@@ -1,0 +1,55 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
+}
+.container {
+    width: 80%;
+    margin: 50px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+h1 {
+    text-align: center;
+}
+.user-details, .video-list {
+    margin-bottom: 20px;
+}
+.video-list table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.video-list th, .video-list td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.profile-img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.bio {
+    margin-bottom: 20px;
+}
+.follow-info a {
+    text-decoration: none;
+    color: #c5257a;
+    list-style: none;
+   
+} 
+
+.ep{
+    list-style: none;
+    
+}
+.ep a{
+    text-decoration: none;
+    color: rgb(33, 182, 33);
+}

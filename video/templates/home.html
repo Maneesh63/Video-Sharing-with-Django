@@ -1,0 +1,37 @@
+{% extends 'index.html' %}
+
+{% load static %}
+
+{% block title %} HOME {% endblock %}
+
+
+{% block styles %}
+
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <h1>Video List</h1>
+    <div class="row">
+        {% for video in videos %}
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <video width="100%" controls>
+                        <source src="{{ video.video.url }}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <div class="card-body">
+                        <a href="{% url 'video_detail' video.pk %}">
+                        <h5 class="card-title">{{ video.title }}</h5>
+                        <p class="card-text">{{ video.description }}</p>
+                        <p class="card-text"><small class="text-muted">Duration: {{ video.duration }}</small></p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

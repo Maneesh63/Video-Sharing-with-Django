@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ user.username }}'s Following</title>
+</head>
+<body>
+    <h1>{{ user.username }}'s Following</h1>
+    <ul>
+        {% for followed_user in following %}
+
+            <li>{{ followed_user.followed.username }}</li>
+
+        {% empty %}
+            <li>Not following anyone yet.</li>
+        {% endfor %}
+    </ul>
+    
+</body>
+</html>

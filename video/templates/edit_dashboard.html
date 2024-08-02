@@ -1,0 +1,25 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block title %} EDIT DASHBOARD {% endblock %}
+
+{% block content %}
+    <form action="{% url 'edit_dashboard' user.pk %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="username">Name:</label>
+        <input type="text" id="username" name="username" value="{{ user_form.instance.username }}"><br><br>
+        
+        
+        <label for="bio">BIO:</label><br>
+         <textarea id="bio" name="bio" rows="10">{{ user_form.instance.bio }}</textarea><br><br>
+          
+
+        <label for="image">Present Profile picture:</label><br>
+        {% if profile_form.instance.image %}
+            <img class="prp" src="{{ user_form.instance.image.url }}" alt="Profile Picture">
+        {% endif %}
+        <input type="file" name="image" id="image"><br><br>
+
+        <button type="submit">Save Changes</button>
+    </form>
+{% endblock %}
